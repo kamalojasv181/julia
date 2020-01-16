@@ -133,8 +133,6 @@ unsafe_convert(::Type{Ref{T}}, r::Ref{NTuple{N,T}}) where {N,T} =
     convert(Ptr{T}, unsafe_convert(Ptr{NTuple{N,T}}, r))
 unsafe_convert(::Type{Ptr{T}}, r::Ref{NTuple{N,T}}) where {N,T} =
     convert(Ptr{T}, unsafe_convert(Ptr{NTuple{N,T}}, r))
-unsafe_convert(::Type{Ptr{T}}, r::Ptr{NTuple{N,T}}) where {N,T} =
-    convert(Ptr{T}, r)
 
 ###
 
