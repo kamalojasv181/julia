@@ -152,16 +152,43 @@ void jl_reset_instantiate_inner_types(jl_datatype_t *t);
 
 void jl_set_datatype_super(jl_datatype_t *tt, jl_value_t *super)
 {
-    if (!jl_is_datatype(super) || !jl_is_abstracttype(super) ||
-        tt->name == ((jl_datatype_t*)super)->name ||
-        jl_subtype(super, (jl_value_t*)jl_vararg_type) ||
-        jl_is_tuple_type(super) ||
-        jl_is_namedtuple_type(super) ||
-        jl_subtype(super, (jl_value_t*)jl_type_type) ||
-        jl_subtype(super, (jl_value_t*)jl_builtin_type)) {
-        jl_errorf("invalid subtyping in definition of %s",
+    if(!jl_is_datatype(super)|| !jl_is_abstracttype(super))
+    {
+    jl_errorf("invalid subtyping in definition of %s. The given value is not a Julia datatype.",
+                  jl_symbol_name(tt->name->name));   
+    }
+
+    if(tt->name == ((jl_datatype_t*)super)->name)
+    {
+    jl_errorf("invalid subtyping in definition of %s. The given supertype has same type as the subtype.",
+              jl_symbol_name(tt->name->name));  
+    }
+    if(jl_is_tuple_type(super))
+    {
+    jl_errorf("invalid subtyping in definition of %s. The given supertype is a tuple.",
+              jl_symbol_name(tt->name->name));    
+    }
+    if(jl_is_namedtuple_type(super))
+    {
+    jl_errorf("invalid subtyping in definition of %s.The given supertype is a named tuple.",
+                  jl_symbol_name(tt->name->name));    
+    }
+    if(jl_subtype(super, (jl_value_t*)jl_type_type))
+    {
+        jl_errorf("invalid subtyping in definition of %s. Given supertype is sub-type of a \n pre defined datatype.",
                   jl_symbol_name(tt->name->name));
     }
+    if(jl_subtype(super, (jl_value_t*)jl_builtin_type))
+    {
+        jl_errorf("invalid subtyping in definition of %s.Given supertype is sub-type of a \n builtin defined datatype.",
+                  jl_symbol_name(tt->name->name));
+    }
+    if(jl_subtype(super, (jl_value_t*)jl_vararg_type))
+    {
+       jl_errorf("invalid subtyping in definition of %s. Given supertype is sub-type of a \n vararg.",
+                  jl_symbol_name(tt->name->name));
+    }
+
     tt->super = (jl_datatype_t*)super;
     jl_gc_wb(tt, tt->super);
 }
