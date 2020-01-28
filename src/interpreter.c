@@ -175,17 +175,17 @@ void jl_set_datatype_super(jl_datatype_t *tt, jl_value_t *super)
     }
     if(jl_subtype(super, (jl_value_t*)jl_type_type))
     {
-        jl_errorf("invalid subtyping in definition of %s. Given supertype is sub-type of a \n pre defined datatype.",
+        jl_errorf("invalid subtyping in definition of %s. Given supertype is sub-type of a pre defined datatype.",
                   jl_symbol_name(tt->name->name));
     }
     if(jl_subtype(super, (jl_value_t*)jl_builtin_type))
     {
-        jl_errorf("invalid subtyping in definition of %s.Given supertype is sub-type of a \n builtin defined datatype.",
+        jl_errorf("invalid subtyping in definition of %s.Given supertype is sub-type of a builtin defined datatype.",
                   jl_symbol_name(tt->name->name));
     }
     if(jl_subtype(super, (jl_value_t*)jl_vararg_type))
     {
-       jl_errorf("invalid subtyping in definition of %s. Given supertype is sub-type of a \n vararg.",
+       jl_errorf("invalid subtyping in definition of %s. Given supertype is sub-type of a vararg.",
                   jl_symbol_name(tt->name->name));
     }
 
